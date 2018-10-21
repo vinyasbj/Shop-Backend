@@ -1,0 +1,113 @@
+// initial setup of your project
+1. create folders
+
+/app
+/app/controllers
+/app/models
+/app/views
+/app/middlewares
+/config
+
+create files
+
+/config/db.js
+/config/routes.js
+
+
+2. create app/models/book.js 
+function Book() {
+
+}
+
+Book.data = [
+    { id: 1, name: 'Harry Potter', author: 'JK Rowling' },
+    { id: 2, name: 'The day of the Jackal', author: 'Fredrick Forsyth' }
+];
+
+
+Book.all = function(){
+    return Book.data; 
+}
+
+Book.findById = function(id){
+
+    return Book.data.find(book => book.id == id);
+}
+
+module.exports = {
+    Book
+}
+
+3. create app/controllers/books_controller.js 
+const express = require('express'); 
+const router = express.Router(); 
+const { Book } = require('../models/book'); 
+
+router.get('/', (req, res) => {
+    res.send(Book.all()); 
+}); 
+
+router.get('/:id', (req, res) => {
+    let id = req.params.id; 
+    let book = Book.findById(id); 
+    if(book) {
+        res.send(book); 
+    } else {
+        res.send({
+            notice: 'book not found'
+        })
+    }
+});
+
+module.exports = {
+    booksController: router
+}
+
+4. create app/config/routes.js 
+
+const express = require('express'); 
+const router = express.Router(); 
+const { booksController } = require('../app/controllers/books_controller');
+
+
+router.use('/books', booksController); 
+
+module.exports = {
+    routes: router
+}
+
+5. in index.js
+const { routes } = require('./config/routes'); 
+// localhost:3000/books
+
+app.use('/', routes); 
+
+// GET localhost:3000/movies 
+
+// GET localhost:3000/movies/1
+
+
+1. model - Movie 
+
+   object prototype function 
+   with properties - name, genre
+
+   define static variable = calling it as data and return an array of your favourite movies 
+
+   define static method - all() -> return the array 
+
+                        - findById(id) -> return the movie objet 
+
+   export the movie model file 
+
+2. create movies_controller.js 
+  
+    require Movie Model and define the working of routes 
+
+    router.get('/') must return all the movies 
+
+    router.get('/:id') must return movie with the id 
+
+    export movies controller 
+
+3. specifiy the routes in the routes.js file for the movies controller

@@ -1,0 +1,69 @@
+2 files 
+
+1. product.js 
+
+   properties - name, price 
+   method - details 
+
+   Object Prototype function - Product 
+
+   export the Prototype Function 
+
+2. init.js 
+
+   import/ require the prototype function from product.js 
+
+   create 2 product objects 
+
+   let p1 = ??? 
+    p1.details() ; 
+
+   let p2 = ?? 
+   p2.details(); 
+
+
+3. user.js 
+
+   properties - username, email 
+   methods - details 
+
+   export User prototype function 
+
+
+4. init.js 
+
+   require prototype function from user.js 
+
+   let u1 = ?? 
+   u1.details()
+
+   let u2 = ??
+   u2.details()
+
+
+5. file1.js 
+   this file should return a function 
+
+    function func(){
+        console.log('im inside function')
+    }
+
+   module.exports = func; 
+
+   use this func function inside your init.js file 
+
+6. file2.js 
+
+ this file should return a person object directly 
+
+  module.exports = {
+      firstName: 'ravi',
+      lastName: 'teja', 
+      details: function(){
+          return ``
+      }
+  }
+
+   use this inside the init.js file 
+
+7 
