@@ -1,12 +1,14 @@
 const express = require('express'); 
-const router = express.Router(); 
+const booksController = express.Router(); 
 const { Book } = require('../models/book'); 
 
-router.get('/', (req, res) => {
+// localhost:3000/books/
+booksController.get('/', (req, res) => {
     res.send(Book.all()); 
 }); 
 
-router.get('/:id', (req, res) => {
+// localhost:3000/books/:id
+booksController.get('/:id', (req, res) => {
     let id = req.params.id; 
     let book = Book.findById(id); 
     if(book) {
@@ -19,5 +21,5 @@ router.get('/:id', (req, res) => {
 });
 
 module.exports = {
-    booksController: router
+    booksController
 }

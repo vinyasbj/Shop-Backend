@@ -1,0 +1,49 @@
+1. inside c:\> mkdir mongo-data
+
+   mac / linux inside the user folder 
+mkdir mongo-data 
+
+
+2. navigation inside mongo -> bin 
+
+
+windows
+mongod --dbpath=c:\>mongo-data 
+
+mac 
+mongod --dbpath ~/mongo-data 
+
+3. 2 models 
+
+category
+name 
+
+product 
+name 
+price
+description
+category 
+codEligible
+stock
+
+Create Read Delete  
+
+POSTMAN
+
+// localhost:3000/books
+
+// localhost:3000/categories 
+// localhost:3000/categories/1 
+
+// localhost:3000/products 
+
+// localhost:3000/orders
+
+
+GET localhost:3000/products 
+
+POST localhost:3000/products 
+
+GET localhost:3000/products/:id 
+
+DELETE localhost:3000/products/:id
