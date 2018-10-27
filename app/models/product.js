@@ -3,9 +3,11 @@ const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
   // sql - foreign key reference
+
   category: {
     type: Schema.Types.ObjectId, 
-    required: true
+    required: true,
+    ref: 'Category'
   }, 
   name: {
       type: String, 
@@ -40,6 +42,17 @@ const productSchema = new Schema({
       default: Date.now
   }
 }); 
+
+
+productSchema.methods.shortInfo = function() {
+    // let product = this; 
+    console.log(this); 
+    return {
+        _id: this._id, 
+        name: this.name, 
+        price: this.price
+    }
+}
 
 const Product = mongoose.model('Product', productSchema); 
 

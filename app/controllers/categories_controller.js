@@ -1,6 +1,7 @@
 const express = require('express'); 
 const router = express.Router(); 
 const { Category } = require('../models/category'); 
+const { Product } = require('../models/product'); 
 
 //GET localhost:3000/categories/
 router.get('/', (req, res) => {
@@ -9,7 +10,7 @@ router.get('/', (req, res) => {
     }).catch((err) => {
         res.send(err); 
     });
-})
+});
 
 // POST localhost:3000/categories
 router.post('/', (req, res) => {
@@ -60,6 +61,23 @@ router.delete('/:id', (req, res) => {
         res.send(err); 
     })
 })
+
+// categories/id/products
+router.get('/:id/products', (req,res) => {
+    let categoryId = req.params.id; 
+
+    Category.findAllProducts(categoryId).then((products) => {
+        res.send(products);
+    }).catch((err) => {
+        res.send(err); 
+    })
+
+    // Product.find({ category: categoryId}).then((products) => {
+    //     res.send(products);
+    // }).catch((err) => {
+    //     res.send(err); 
+    // })
+}); 
 
 
 module.exports = {

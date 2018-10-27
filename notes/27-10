@@ -1,0 +1,59 @@
+categories
+_id : ObjectID
+name : String 
+
+
+products 
+_id : ObjectID
+name : String 
+price : Number
+description : String
+codEligible : Boolean
+stock : Number
+image_urls : [
+    { 
+        image_url : String 
+    }
+]
+
+users
+_id : ObjectID
+username : String 
+password : String 
+email : String 
+mobile : String 
+cartItems: [
+    { 
+        product: ObjectID, 
+        quantity: Number 
+    }
+]
+// TODO - addresses
+// TODO - wishlists
+
+orders 
+_id : Number
+order_number : String 
+order_date : String 
+user : ObjectID
+// TODO - address
+total : Number 
+orderItems : [
+     { 
+        product: ObjectID, 
+        quantity: Number, 
+        price: Number 
+    }
+]
+
+products 
+.....
+reviews: [
+    { 
+        title:  String
+        Body : String 
+        rating : Number 
+        user : ObjectID 
+    }
+]
+

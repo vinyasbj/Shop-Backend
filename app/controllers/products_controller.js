@@ -3,7 +3,8 @@ const router = express.Router();
 const { Product } = require('../models/product'); 
 
 router.get('/', (req, res) => {
-    Product.find().then((products) => {
+    // popluate works on array of objects
+    Product.find().populate('category').then((products) => {
         res.send(products); 
     }).catch((err) => {
         res.send(err); 
@@ -12,7 +13,8 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     let id = req.params.id; 
-    Product.findById(id).then((product) => {
+    // populate works on a single
+    Product.findById(id).populate('category').then((product) => {
         if(!product) {
             res.send({
                 notice: 'record not found'
@@ -51,6 +53,25 @@ router.delete('/:id', (req, res) => {
             product, 
             notice: 'Successfully deleted a product'
         })
+    })
+})
+
+
+// products/id/short
+// info of product like the name id and price
+
+router.get('/:id/short', (req, res) => {
+    let id = req.params.id; 
+    Product.findById(id).then((product) => {
+        // introducing our own instance methods
+        res.send(product.shortInfo()); 
+    });
+}); 
+
+// products/short/all 
+router.get('/short/all', (req, res) => {
+    Product.find().then((products) => {
+        res.send(products.map(product => product.shortInfo()))
     })
 })
 
