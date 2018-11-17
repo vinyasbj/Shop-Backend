@@ -1,0 +1,5 @@
+user 
+ * username - String - minlength - 4 maxlength - 24
+ * email - String - custom validation - format 
+ * mobile - String - min - 10 max - 10 - custom validation - format
+ * password - String - minlength - 8 maxlength - 128 ( encrypted )

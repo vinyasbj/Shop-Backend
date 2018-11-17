@@ -35,7 +35,15 @@ const productSchema = new Schema({
       type: Boolean, 
       required: true, 
       enum: [true, false], 
-      default: true
+      default: true, 
+      validate: {
+          validator: function(value){
+                return !(this.price >= 25000 && this.codEligible)
+          }, 
+          message: function(){
+            return 'cod not eligible if product price is greater than 25000'
+          }
+      }
   },
   createdAt: {
       type: Date, 

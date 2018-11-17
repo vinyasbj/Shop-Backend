@@ -25,7 +25,6 @@ router.get('/:id', validateID, (req, res) => {
             })
         }
         res.send(product); 
-
     }).catch((err) => {
         res.send(err); 
     })
