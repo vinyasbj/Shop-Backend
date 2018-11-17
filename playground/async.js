@@ -1,39 +1,25 @@
-let value5 ,value6; 
+// const n1 = 10; 
+// const n2 = 20; 
 
-const get5 = () => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve(5);
-        }, 2000);
-    })
-}
+// const add = (n1, n2) => {
+//     const result = n1 + n2; 
+//     return result; 
+// }
+// add(); 
 
 
-const get6 = (value) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve(6 + value);
-        }, 100);
-    })
-}
-   
+// browser - event handlers, setTimeout / setInterval , XHR 
 
-// get5.then((value) => {
-//     console.log(value);
-// }).catch((err) => {
-//     console.log(err); 
-// });
 
-Promise.all([get5(), get6(5)]).then((values) => {
-    console.log(values); 
-})
+// node - events handlers, setTimeout / setInterval, http , DB 
 
-// Promise.race([get5, get6]).then((value) => {
-//     console.log(value); 
-// })
 
-// get5().then((value) => {
-//    return get6(value);
-// }).then((res) => {
-//     console.log(res); 
-// })
+// db call to fetch users 
+let users; 
+
+// fetching users 
+setTimeout(function(){
+    users = ['nikhil', 'surya', 'ramesh']; 
+    console.log(users); 
+}, 1500);
+
