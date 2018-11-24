@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const validatePackage = require('validator')
 const Schema = mongoose.Schema 
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 const userSchema = new Schema({
     username: {
@@ -49,8 +50,17 @@ const userSchema = new Schema({
             }
         }
         // TODO // custom validation to check format of mobile
-    }
+    }, 
+    tokens: [
+       {
+           token: {
+               type: String
+           }
+       }
+    ]
 })
+
+// tokens = [{ _id: 1, token: '12345sdfasdf' }, {_id: 22, token: 'sadfasdf4567}]
 
 
 // npm install --save bcryptjs 
@@ -58,12 +68,17 @@ const userSchema = new Schema({
 // mongoose middleware functions - pre hooks or post hooks
 userSchema.pre('save', function(next){
     let user = this
-    bcrypt.genSalt(10).then(function(salt){
-        bcrypt.hash(user.password, salt).then(function(encrypted){
-            user.password = encrypted 
-            next()
+    if(user.isNew){
+        bcrypt.genSalt(10).then(function (salt) {
+            bcrypt.hash(user.password, salt).then(function (encrypted) {
+                user.password = encrypted
+                next()
+            })
         })
-    })
+    } else {
+        next()
+    }
+    
 })
 
 userSchema.statics.findByCredentials = function(email, password){
@@ -71,6 +86,9 @@ userSchema.statics.findByCredentials = function(email, password){
     return User.findOne({ email: email}).then(function(user){
         if(!user){
             return Promise.reject('invalid email or password')
+            // return new Promise(function(resolve, reject){
+            //     reject('invalid email or password')
+            // })
         }
 
         return new Promise(function(resolve, reject){
@@ -91,7 +109,41 @@ userSchema.statics.findByCredentials = function(email, password){
         //     }
         // })
 
+        // [] / new Array()
+        // {} / new Object()
+
     })
+}
+
+
+userSchema.methods.generateToken = function(){
+    const user = this
+    const tokenData = {
+        userId: user._id
+    }
+    const token = jwt.sign(tokenData, 'supersecret') 
+    user.tokens.push({
+        token
+    })
+    return user.save().then((user) => {
+        return Promise.resolve(token)
+    })
+}
+
+userSchema.statics.findByToken = function(token){
+    let User = this 
+    let tokenData 
+    try {
+        tokenData = jwt.verify(token, 'supersecret')
+    } catch (e) {
+        return Promise.reject(e)
+    }
+
+    return User.findOne({
+        '_id': tokenData.userId,
+        'tokens.token': token
+    })
+
 }
 
 const User = mongoose.model('User', userSchema)
