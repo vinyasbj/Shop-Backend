@@ -43,6 +43,17 @@ router.get('/:id', validateID, (req, res) => {
     })
 }); 
 
+
+router.put('/:id', validateID, (req, res) => {
+    const id = req.params.id 
+    const body = req.body 
+    
+    Category.findByIdAndUpdate(id, { $set: body }, { new: true }).then((category) => {
+        res.send(category)
+    })
+    // Category.findOneAndUpdate({ _id: id}, {}, {})
+})
+
 // DELETE localhost:3000/categories/:id
 router.delete('/:id', validateID, (req, res) => {
     let id = req.params.id; 

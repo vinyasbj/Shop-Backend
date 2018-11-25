@@ -47,3 +47,4 @@ email
 password 
 tokens: [ { }, { } ]
 cartLineItems: [ { id: , product_id:, quantity} ]
+wishlists: [ { product }]

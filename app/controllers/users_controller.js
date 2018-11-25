@@ -53,9 +53,18 @@ router.get('/cart_line_items', authenticateUser, function(req,res) {
 router.post('/cart_line_items', authenticateUser, function(req, res) {
     const body = req.body 
     const user = req.user
+
     const cartLineItem = new CartLineItem(body)
 
-    user.cartLineItems.push(cartLineItem)
+    // objectID == objectID 
+    // cartItem.product.equals(cartLineItem.product)
+    const inCart = user.cartLineItems.find(cartItem => cartItem.product.equals(cartLineItem.product))
+
+    if(inCart) {
+        inCart.quantity = inCart.quantity + cartLineItem.quantity
+    } else {
+        user.cartLineItems.push(data)
+    }
 
     user.save().then(function(user){
         res.send({
@@ -69,9 +78,34 @@ router.post('/cart_line_items', authenticateUser, function(req, res) {
 
 
 // PUT users/cart_line_items/:id
+router.put('/cart_line_items/:id', authenticateUser, function(req, res){
+    const cartItemId = req.params.id 
+    const body = req.body
+    const user = req.user 
+    const item = user.cartLineItems.id(cartItemId) 
+    Object.assign(item, body)
+
+    user.save().then((user) => {
+        res.send(item)
+    }).catch((err) => {
+        res.send(err)
+    })
+})
 
 // DELETE users/cart_line_items/:id
+router.delete('/cart_line_items/:id', authenticateUser, function(req, res) {
+    const cartItemId = req.params.id 
+    const user = req.user 
 
+    user.cartLineItems.id(cartItemId).remove() 
+    user.save().then((user) => {
+        res.send({
+            notice: 'removed the product from the cart'
+        })
+    }).catch((err) => {
+        res.send(err)
+    })
+})
 
 module.exports = {
     usersController: router
