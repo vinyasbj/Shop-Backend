@@ -4,6 +4,8 @@ const Schema = mongoose.Schema
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
+const { cartLineItemSchema } = require('./cart_line_item')
+
 const userSchema = new Schema({
     username: {
         type: String, 
@@ -57,9 +59,12 @@ const userSchema = new Schema({
                type: String
            }
        }
-    ]
+    ],
+    cartLineItems: [cartLineItemSchema]
 })
 
+
+// [ { product: 1, quantity: 1}, { product: 2, quantity: 1} ]
 // tokens = [{ _id: 1, token: '12345sdfasdf' }, {_id: 22, token: 'sadfasdf4567}]
 
 
