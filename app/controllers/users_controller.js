@@ -53,9 +53,7 @@ router.get('/cart_line_items', authenticateUser, function(req,res) {
 router.post('/cart_line_items', authenticateUser, function(req, res) {
     const body = req.body 
     const user = req.user
-
     const cartLineItem = new CartLineItem(body)
-
     // objectID == objectID 
     // cartItem.product.equals(cartLineItem.product)
     const inCart = user.cartLineItems.find(cartItem => cartItem.product.equals(cartLineItem.product))
