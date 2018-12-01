@@ -18,5 +18,8 @@
     "mongoose": "^5.3.4",
     "shorthash": "0.0.2",
     "validator": "^10.9.0"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0"
   }
 }

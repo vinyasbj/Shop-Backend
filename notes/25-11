@@ -48,3 +48,13 @@ password
 tokens: [ { }, { } ]
 cartLineItems: [ { id: , product_id:, quantity} ]
 wishlists: [ { product }]
+
+// app personalization
+orders
+orderNumber 
+orderDate 
+user 
+total 
+orderLineItems: [ { id, product, price, quantity }]
+
+// address 

@@ -11,11 +11,12 @@ router.post('/', function(req, res){
     let body = req.body
     let user = new User(body)
     user.save().then(function(user){
-        res.send({
-            user, 
-            notice: 'successfully registered'
-        })
-    }).catch(function(err){
+      return user.generateToken()
+    })
+    .then(function(token){
+        res.header('x-auth', token).send()
+    })
+    .catch(function(err){
         res.send(err)
     })
 })
@@ -61,7 +62,7 @@ router.post('/cart_line_items', authenticateUser, function(req, res) {
     if(inCart) {
         inCart.quantity = inCart.quantity + cartLineItem.quantity
     } else {
-        user.cartLineItems.push(data)
+        user.cartLineItems.push(cartLineItem)
     }
 
     user.save().then(function(user){
