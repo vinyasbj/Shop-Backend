@@ -1,0 +1,26 @@
+user 
+ * username - String - minlength - 4 maxlength - 24
+ * email - String - custom validation - format 
+ * mobile - String - min - 10 max - 10 - custom validation - format
+ * password - String - minlength - 8 maxlength - 128 ( encrypted )
+
+
+
+product code
+// shorthash
+// product._id
+DCT-Z1bL2tE
+
+
+pre validate 
+validation 
+post validate 
+
+pre save 
+save 
+post save
+
+pre remove 
+remove 
+post remove
+

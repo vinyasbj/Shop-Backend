@@ -1,6 +1,8 @@
 const express = require('express'); 
 const router = express.Router(); 
 const { Product } = require('../models/product'); 
+const { validateID } = require('../middlewares/utilities'); 
+
 
 router.get('/', (req, res) => {
     // popluate works on array of objects
@@ -11,7 +13,9 @@ router.get('/', (req, res) => {
     }); 
 }); 
 
-router.get('/:id', (req, res) => {
+// middlewares 
+router.get('/:id', validateID, (req, res) => {
+    console.log(req.myData); 
     let id = req.params.id; 
     // populate works on a single
     Product.findById(id).populate('category').then((product) => {
@@ -21,7 +25,6 @@ router.get('/:id', (req, res) => {
             })
         }
         res.send(product); 
-
     }).catch((err) => {
         res.send(err); 
     })
@@ -40,7 +43,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', validateID, (req, res) => {
     let id = req.params.id; 
     Product.findByIdAndDelete(id).then((product) => {
         if(!product) {
@@ -60,7 +63,7 @@ router.delete('/:id', (req, res) => {
 // products/id/short
 // info of product like the name id and price
 
-router.get('/:id/short', (req, res) => {
+router.get('/:id/short', validateID, (req, res) => {
     let id = req.params.id; 
     Product.findById(id).then((product) => {
         // introducing our own instance methods

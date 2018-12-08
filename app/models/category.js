@@ -9,7 +9,8 @@ const categorySchema = new Schema({
         type: String, 
         required: true, 
         minlength: 1,
-        maxlength: 64
+        maxlength: 64,
+        unique: true
     }
 }); 
 

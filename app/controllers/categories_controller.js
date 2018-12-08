@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router(); 
 const { Category } = require('../models/category'); 
 const { Product } = require('../models/product'); 
+const { validateID } = require('../middlewares/utilities'); 
 
 //GET localhost:3000/categories/
 router.get('/', (req, res) => {
@@ -28,7 +29,7 @@ router.post('/', (req, res) => {
 
 
 // GET localhost:3000/categories/:id 
-router.get('/:id', (req, res) => {
+router.get('/:id', validateID, (req, res) => {
     let id = req.params.id; 
     Category.findById(id).then((category) => {
        if(!category) {
@@ -42,8 +43,19 @@ router.get('/:id', (req, res) => {
     })
 }); 
 
+
+router.put('/:id', validateID, (req, res) => {
+    const id = req.params.id 
+    const body = req.body 
+    
+    Category.findByIdAndUpdate(id, { $set: body }, { new: true }).then((category) => {
+        res.send(category)
+    })
+    // Category.findOneAndUpdate({ _id: id}, {}, {})
+})
+
 // DELETE localhost:3000/categories/:id
-router.delete('/:id', (req, res) => {
+router.delete('/:id', validateID, (req, res) => {
     let id = req.params.id; 
     Category.findByIdAndDelete(id).then((category) => {
         if(!category) {
@@ -63,7 +75,7 @@ router.delete('/:id', (req, res) => {
 })
 
 // categories/id/products
-router.get('/:id/products', (req,res) => {
+router.get('/:id/products', validateID, (req,res) => {
     let categoryId = req.params.id; 
 
     Category.findAllProducts(categoryId).then((products) => {

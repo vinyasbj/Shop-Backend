@@ -1,0 +1,60 @@
+
+// SQL 
+
+products
+id
+name
+price
+
+users
+id 
+username
+email
+password
+
+profiles
+id
+user_id
+dob
+facebook
+twitter
+bio
+
+
+tokens 
+id
+user_id
+token 
+
+cart_line_items
+id
+user_id ( FK )
+product_id ( FK )
+quantity
+
+
+// NOSQL
+
+products 
+id
+name
+price 
+
+users 
+id
+username
+email 
+password 
+tokens: [ { }, { } ]
+cartLineItems: [ { id: , product_id:, quantity} ]
+wishlists: [ { product }]
+
+// app personalization
+orders
+orderNumber 
+orderDate 
+user 
+total 
+orderLineItems: [ { id, product, price, quantity }]
+
+// address 
