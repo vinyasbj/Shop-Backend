@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const shorthash = require('shorthash')
 const { User } = require('./user')
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const orderSchema = new Schema({
     orderDate: {
