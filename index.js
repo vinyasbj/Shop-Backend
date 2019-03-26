@@ -3,7 +3,7 @@
 const express = require('express'); 
 var cors = require('cors')
 const app = express(); 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 80;
 const { mongoose } = require('./config/db'); 
 const { routes } = require('./config/routes'); 
 // // localhost:3000/books
@@ -16,6 +16,6 @@ app.listen(port, function() {
     console.log('listening on port', port); 
 }); 
 
-app.listen(80, function () {
+app.listen(port, function () {
     console.log('CORS-enabled web server listening on port 80')
   })
