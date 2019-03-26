@@ -10,14 +10,17 @@ const { authenticateUser } = require('../middlewares/authentication')
 router.post('/', function(req, res){
     let body = req.body
     let user = new User(body)
+    console.log('====================================')
+    console.log(user)
+    console.log('====================================')
     user.save().then(function(user){
       return user.generateToken()
     })
     .then(function(token){
-        res.header('x-auth', token).send()
+        return res.header('x-auth', token).send()
     })
     .catch(function(err){
-        res.send(err)
+       return res.send(err)
     })
 })
 
@@ -25,7 +28,9 @@ router.post('/', function(req, res){
 // post /users/login
 router.post('/login', function(req, res){
     let body = req.body; 
-    // User.findOne({email: body.email, password: body.password})
+    
+    // const user = User.findOne({email: body.email, password: body.password})
+    console.log(body);
     User.findByCredentials(body.email, body.password).then(function(user){
         return user.generateToken()
     })

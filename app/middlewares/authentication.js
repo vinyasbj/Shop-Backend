@@ -5,6 +5,8 @@ const authenticateUser = (req, res, next) => {
     User.findByToken(token).then((user) => {
         req.user = user
         req.token = token
+        console.log(token);
+        
         next()
     }).catch((err) => {
         res.send({

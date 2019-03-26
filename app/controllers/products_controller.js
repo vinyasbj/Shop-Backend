@@ -1,5 +1,7 @@
 const express = require('express'); 
 const router = express.Router(); 
+const multer = require("multer");
+const upload = multer({dest: 'uploads/'});
 const { Product } = require('../models/product'); 
 const { validateID } = require('../middlewares/utilities'); 
 
@@ -30,7 +32,7 @@ router.get('/:id', validateID, (req, res) => {
     })
 })
 
-router.post('/', (req, res) => {
+router.post('/',upload.single('productImage'), (req, res) => {
     let body = req.body; 
     let product = new Product(body); 
     product.save().then((product) => {
