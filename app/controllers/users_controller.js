@@ -32,10 +32,10 @@ router.post('/login', function(req, res){
     // const user = User.findOne({email: body.email, password: body.password})
     console.log(body);
     User.findByCredentials(body.email, body.password).then(function(user){
-        return user.generateToken()
+        return user.generateToken();
     })
     .then((token) => {
-        res.header('x-auth', token).send()
+        res.header('x-auth', token).send({notice: 'Successfully Logged In'});
     })
     .catch(function(err){
         res.status(401).send(err)
