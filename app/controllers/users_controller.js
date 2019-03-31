@@ -35,7 +35,7 @@ router.post('/login', function(req, res){
         return user.generateToken();
     })
     .then((token) => {
-        res.header('x-auth', token).send({notice: 'Successfully Logged In'});
+        res.header('x-auth', token).send({user: user ,token: token,notice: 'Successfully Logged In'});
     })
     .catch(function(err){
         res.status(401).send(err)
