@@ -17,11 +17,30 @@ router.post('/', function(req, res){
       return user.generateToken()
     })
     .then(function(token){
-        return res.header('x-auth', token).send()
+        return res.header('x-auth', token).send(user)
     })
     .catch(function(err){
        return res.send(err)
     })
+})
+
+router.post('/token', function(req, res){
+        console.log('====================================')
+        console.log(req.body)
+        console.log('====================================') 
+    User.findByToken(req.body.token).then((users) => {
+        res.send(users); 
+    }).catch((err) => {
+        res.send(err); 
+    });
+})
+
+router.get('/', function(req, res){
+    User.find().then((users) => {
+        res.send(users); 
+    }).catch((err) => {
+        res.send(err); 
+    });
 })
 
 // login
@@ -31,11 +50,15 @@ router.post('/login', function(req, res){
     
     // const user = User.findOne({email: body.email, password: body.password})
     console.log(body);
-    User.findByCredentials(body.email, body.password).then(function(user){
+    User.findByCredentials(body.email, body.password).then(function(user){ 
         return user.generateToken();
     })
     .then((token) => {
-        res.header('x-auth', token).send({user: user ,token: token,notice: 'Successfully Logged In'});
+        // // console.log(user)
+        // res.header('x-auth', token).send();
+        // // res.send(user);
+
+        return res.status(200).header('x-auth', token).send({token: token,notice: "Successfully logged"})
     })
     .catch(function(err){
         res.status(401).send(err)
