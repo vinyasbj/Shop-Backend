@@ -53,6 +53,10 @@ const productSchema = new Schema({
   code: {
       type: String, 
       required: true
+  },
+  productImage: {
+      type: String,
+      required: true
   }
 }); 
 

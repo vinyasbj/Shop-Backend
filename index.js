@@ -2,10 +2,11 @@
 // npm install --save express
 const express = require('express'); 
 const app = express(); 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3001;
 const cors = require('cors')
 const { mongoose } = require('./config/db'); 
 const { routes } = require('./config/routes'); 
+app.use('/uploads',express.static('uploads'));
 // // localhost:3000/books
 app.use(express.json()); 
 app.use(cors());

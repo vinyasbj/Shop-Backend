@@ -1,7 +1,15 @@
 const express = require('express'); 
 const router = express.Router(); 
 const multer = require("multer");
-const upload = multer({dest: 'uploads/'});
+const storage = multer.diskStorage({
+    destination: function(req,file,callback){
+        callback(null,'./uploads/');
+    },
+    filename: function(req,file,callback){
+        callback(null,new Date().toISOString()+file.originalname);
+    }
+});
+const upload = multer({storage: storage});
 const { Product } = require('../models/product'); 
 const { validateID } = require('../middlewares/utilities'); 
 
@@ -33,8 +41,12 @@ router.get('/:id', validateID, (req, res) => {
 })
 
 router.post('/',upload.single('productImage'), (req, res) => {
+    console.log(req.file);
     let body = req.body; 
+    body.productImage = req.file.path
+    console.log(body);
     let product = new Product(body); 
+    // product({productImage: req.file.path})
     product.save().then((product) => {
         res.send({
             product, 
@@ -61,9 +73,15 @@ router.delete('/:id', validateID, (req, res) => {
     })
 })
 
-router.post('/', (req, res) => {
+/* router.post('/',upload.single('productImage'), (req, res) => {
+    console.log('====================================')
+    // console.log(req.body);
+    // console.log(req.file);
+    console.log('====================================')
     let body = req.body; 
     let product = new Product(body); 
+    console.log(body);
+    product({productImage: req.file.path})
     product.save().then((product) => {
         res.send({
             product, 
@@ -72,7 +90,7 @@ router.post('/', (req, res) => {
     }).catch((err) => {
         res.send(err); 
     })
-})
+}) */
 
 // products/id/short
 // info of product like the name id and price
