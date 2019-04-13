@@ -1,6 +1,10 @@
 const express = require('express'); 
 const router = express.Router(); 
 const multer = require("multer");
+var cloudinary = require('cloudinary').v2;
+const CLOUDINARY_URL= "https://api.cloudinary.com/v1_1/hldhyru73/upload";
+const CLOUDINARY_UPLOAD_PRESET = 'jcc9czjw';
+
 const storage = multer.diskStorage({
     destination: function(req,file,callback){
         callback(null,'./uploads/');
@@ -42,19 +46,38 @@ router.get('/:id', validateID, (req, res) => {
 
 router.post('/',upload.single('productImage'), (req, res) => {
     console.log(req.file);
-    let body = req.body; 
-    body.productImage = req.file.path
-    console.log(body);
-    let product = new Product(body); 
-    // product({productImage: req.file.path})
-    product.save().then((product) => {
-        res.send({
-            product, 
-            notice: 'Successfully created a product'
-        }); 
-    }).catch((err) => {
-        res.send(err); 
+    cloudinary.config({ 
+        cloud_name: 'hldhyru73', 
+        api_key: '116327454992586', 
+        api_secret: 'UqoUKgVo058jHaju3cntj_ZeTFg' 
+    });
+    const path = req.file.path
+    cloudinary.uploader.upload(path,{ resource_type: "image",public_id: `uploads/${req.body.name}`  },
+    function(err, image) {
+        let body = req.body;
+        if (err) return res.send(err)
+        // return image
+        body.productImage =  image.secure_url
+        let product = new Product(body); 
+        console.log(image.secure_url);
+        product.save().then((product) => {
+            res.send({
+                product, 
+                notice: 'Successfully created a product'
+            }); 
+        }).catch((err) => {
+            res.send(err); 
+        })
+        console.log('file uploaded to Cloudinary')
+        // const fs = require('fs')
+        // fs.unlinkSync(path)
+        // res.json(image)
     })
+    
+   
+
+    
+
 })
 
 router.delete('/:id', validateID, (req, res) => {
