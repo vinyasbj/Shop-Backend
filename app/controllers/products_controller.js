@@ -4,6 +4,8 @@ const multer = require("multer");
 var cloudinary = require('cloudinary').v2;
 const CLOUDINARY_URL= "https://api.cloudinary.com/v1_1/hldhyru73/upload";
 const CLOUDINARY_UPLOAD_PRESET = 'jcc9czjw';
+// const { validateID } = require('../middlewares/utilities'); 
+
 
 const storage = multer.diskStorage({
     destination: function(req,file,callback){
@@ -73,11 +75,37 @@ router.post('/',upload.single('productImage'), (req, res) => {
         // fs.unlinkSync(path)
         // res.json(image)
     })
-    
-   
+})
 
-    
-
+router.put('/:id', validateID, upload.single('productImage'),(req, res) => {
+    const id = req.params.id 
+    const body = req.body 
+    cloudinary.config({ 
+        cloud_name: 'hldhyru73', 
+        api_key: '116327454992586', 
+        api_secret: 'UqoUKgVo058jHaju3cntj_ZeTFg' 
+    });
+    const path = req.file.path
+    cloudinary.uploader.upload(path,{ resource_type: "image",public_id: `uploads/${req.body.name}`  },
+    function(err, image) {
+        let body = req.body;
+        if (err) return res.send(err)
+        // return image
+        body.productImage =  image.secure_url
+        console.log(image.secure_url);
+        Product.findByIdAndUpdate(id, { $set: body }, { new: true }).then((product) => {
+            res.send(product)
+        }).catch((err) => {
+            res.send(err); 
+        })
+        console.log('file uploaded to Cloudinary')
+        // const fs = require('fs')
+        // fs.unlinkSync(path)
+        // res.json(image)
+    })
+    // Product.findByIdAndUpdate(id, { $set: body }, { new: true }).then((product) => {
+    //     res.send(product)
+    // })
 })
 
 router.delete('/:id', validateID, (req, res) => {
