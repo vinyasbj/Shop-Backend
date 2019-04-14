@@ -94,7 +94,7 @@ router.put('/:id', validateID, upload.single('productImage'),(req, res) => {
         body.productImage =  image.secure_url
         console.log(image.secure_url);
         Product.findByIdAndUpdate(id, { $set: body }, { new: true }).then((product) => {
-            res.send(product)
+            res.send({product, notice: 'Successfully updated a product'})
         }).catch((err) => {
             res.send(err); 
         })
